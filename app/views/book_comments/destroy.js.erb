@@ -1,0 +1,3 @@
+$("#book-comment-count-link").html('<%= escape_javascript(render("template/book_comments_count", book: @book  )) %>');
+$("#book-comment-link").html('<%= escape_javascript(render("template/book_comments", book: @book  )) %>');
+$("textarea").val('')

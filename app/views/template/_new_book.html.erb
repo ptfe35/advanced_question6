@@ -1,0 +1,10 @@
+<h2>New book</h2>
+<%= form_for(book, url: books_path) do |f| %>
+<p>Title</p>
+<%= f.text_field :title, class:"form-control" %>
+<br>
+<p>Opinion</p>
+<%= f.text_area :body, class:"form-control", rows:"3" %>
+<br>
+<%= f.submit "Create Book", class:"btn btn-primary col-xs-12" %>
+<% end %>

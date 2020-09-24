@@ -1,0 +1,83 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <% if @book.errors.any? %>
+      <div class="text-danger">
+        <h2><%= @book.errors.count %> errors prohibited this obj from being saved:</h2>
+        <ul>
+          <% @book.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-3">
+      <%= render 'template/user_info', user: @user %>
+      <%= render 'template/new_book', book: @book %>
+    </div>
+    <div class="col-xs-9">
+      <h2>Book detail</h2>
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            <td style="width:10%">
+              <%= link_to user_path(@book_s.user.id) do %>
+              <%= attachment_image_tag @book_s.user, :profile_image, :fill, 40, 40, fallback: "no_image.jpg", class: "pull-left profile-thumb" %>
+              <%= @book_s.user.name %>
+              <% end %>
+            </td>
+            <td style="width:10%"><%= @book_s.title %></td>
+            <td style="width:39%"><%= @book_s.body %></td>
+            <td  id="favorite-link-<%= @book_s.id %>">
+              <%= render 'template/favorite', book: @book_s %>
+            </td>
+            <td style="width:15%" id="book-comment-count-link">
+              <%= render 'template/book_comments_count', book: @book_s %>
+            </td>
+            <% if @book_s.user == current_user %>
+            <td style="width:10%">
+              <%= link_to edit_book_path(@book_s) do %>
+              <button type="button" class="btn btn-success"><span>Edit</span></button>
+              <% end %>
+            </td>
+            <td style="width:10%">
+              <%= link_to book_path(@book_s), method: :delete, "data-confirm" => "Are you sure?" do %>
+              <button type="button" class="btn btn-danger"><span>Destroy</span></button>
+              <% end %>
+            </td>
+            <% end %>
+          </tr>
+        </tbody>
+      </table>
+      <table class="table table-hover">
+
+        <tbody id="book-comment-link">
+              <%= render 'template/book_comments', book: @book_s %>
+        </tbody>
+
+      </table>
+      <% if @book_comment.errors.any? %>
+      <div class="text-danger">
+        <h2><%= @book_comment.errors.count %> errors prohibited this obj from being saved:</h2>
+        <ul>
+          <% @book_comment.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+      <% end %>
+
+      <%= form_with(model: [@book_s, @book_comment]) do |f| %>
+      <div class="row">
+        <div class="col-sm-12">
+          <%= f.text_area :comment, rows:'2', class: "form-control",placeholder: "コメント" %>
+        </div>
+      </div>
+      <%= f.submit "送信", class: "btn" %>
+      <% end %>
+    </div>
+  </div>
+</div>

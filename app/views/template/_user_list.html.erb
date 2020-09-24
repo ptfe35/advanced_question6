@@ -1,0 +1,38 @@
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th style="width:15%">image</th>
+      <th style="width:15%">name</th>
+      <th style="width:15%"></th>
+      <th style="width:20%"></th>
+      <th style="width:10%"></th>
+      <th style="width:25%"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% users.each do |user| %>
+    <tr>
+      <td><%= attachment_image_tag user, :profile_image, :fill, 60, 60, fallback: "no_image.jpg", size:'60x60', class: "pull-left profile-thumb" %></td>
+      <td><%= user.name %></td>
+      <td>フォロー数：<%= user.followings.count %></td>
+      <td>フォロワー数：<%= user.followers.count %></td>
+      <td>
+        <% unless current_user == user %>
+        <% if current_user.following?(user) %>
+        <%= form_for(current_user.relationships.find_by(follow_id: user.id), html: { method: :delete }) do |f| %>
+        <%= hidden_field_tag :follow_id, user.id %>
+        <%= f.submit 'フォロー外す', class: 'btn btn-xs btn-primary btn-block' %>
+        <% end %>
+        <% else %>
+        <%= form_for(current_user.relationships.build) do |f| %>
+        <%= hidden_field_tag :follow_id, user.id %>
+        <%= f.submit 'フォローする', class: 'btn btn-xs btn-success btn-block' %>
+        <% end %>
+        <% end %>
+        <% end %>
+      </td>
+      <td><%= link_to user_path(user.id) do %>Show<% end %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

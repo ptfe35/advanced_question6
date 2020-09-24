@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <div class="form-user style-1 rounded has-shadow-1">
+        <div class="form-header text-center">
+          <h2>Editing Book</h2>
+        </div>
+        <div class="form-body">
+          <%= form_for(@book) do |f| %>
+          <div class="text-danger">
+            <% if @book.errors.any? %>
+            <h3><%= @book.errors.count %> errors prohibited this book from being saved:</h3>
+            <ul>
+              <% @book.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+              <% end %>
+            </ul>
+            <% end %>
+          </div>
+          <div class="form-group has-icon">
+            <p>Title</p>
+            <%= f.text_field :title, autofocus: true, class:"form-control", id:"inputEmail", placeholder:""%>
+            <span class="fa fa-user form-control-icon" aria-hidden="true"></span>
+          </div>
+          <div class="form-group has-icon">
+            <p>Opinion</p>
+            <%= f.text_area :body, autofocus: true, class:"form-control", id:"inputEmail", placeholder:""%>
+            <span class="fa fa-user form-control-icon" aria-hidden="true"></span>
+          </div>
+          <%= f.submit "Update Book", class:"btn btn-primary" %>
+          <% end %>
+          <br>
+          <%= link_to "Show", book_path(@book.id) %> | <%= link_to "Back", books_path %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

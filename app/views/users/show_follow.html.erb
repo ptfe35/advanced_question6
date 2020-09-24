@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <h2><%= @title %></h2>
+      <% if @users.empty? %>
+        <p>ユーザーはいません</p>
+        <% else %>
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th style="width:15%">image</th>
+              <th style="width:15%">name</th>
+              <th style="width:15%"></th>
+              <th style="width:20%"></th>
+              <th style="width:35%"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |user| %>
+            <tr>
+              <td><%= attachment_image_tag user, :profile_image, :fill, 60, 60, fallback: "no_image.jpg", size:'60x60', class: "pull-left profile-thumb" %></td>
+              <td><%= user.name %></td>
+              <td>フォロー数：<%= user.followings.count %></td>
+              <td>フォロワー数：<%= user.followers.count %></td>
+              <td><%= link_to user_path(user.id) do %>Show<% end %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <% end %>
+      </div>
+    </div>
+  </div>
